@@ -39,7 +39,7 @@ Docker によりコンテナ化されており、簡単にセットアップで�
 
 ```bash
 git clone <Github Personal Token>@github.com/okicom-ian/ryudai-backend-v2.git
-cd ryudai-backend
+cd ryudai-backend-v2
 ```
 
 ### 2. 環境ファイルを作成
@@ -50,9 +50,9 @@ cp .env.example .env
 ```
 
 
-### 3. VS Code で .env ファイルを編集
+### 3. VS Code で `.env` ファイルを切り替え
 
-**`.env` を開き、MS Teams チャンネル 「okicom社内調整 ＞ Githubリポジトリ構成ｖ２」 に記載されている値を設定し、パスワードやトークンを変更してください。**
+**コピーした `.env` ファイルは、MS Teams チャンネル「okicom社内調整 ＞ Githubリポジトリ構成v2」に添付されているファイルに置き換えてください。**
 
 ### 4. Mosquitto パスワードファイルを初期化
 
@@ -71,6 +71,8 @@ docker compose -f docker-compose.yml -f docker-compose.init.yml run --rm mosquit
 ```bash
 docker compose up -d
 ```
+
+### 6. 以下のサービスへ正常にアクセスできるかご確認ください
 
 ### 🌐 サービスにアクセス
 
@@ -132,7 +134,7 @@ This is the backend service stack for the **Ryudai Robot Project**, containerize
 
 ```bash
 git clone <Github Personal Token>@github.com/okicom-ian/ryudai-backend-v2.git
-cd ryudai-backend
+cd ryudai-backend-v2
 ```
 
 
@@ -146,7 +148,7 @@ cp .env.example .env
 
 ### 3. Open VS Code and edit .env file
 
-**Edit .env with the values indicated in the MS Teams channel okicom社内調整＞Githubリポジトリ構成ｖ２ and change passwords/tokens to the indicated values.**
+**Please replace the copied `.env` file with the file attached to the MS Teams channel okicom社内調整＞Githubリポジトリ構成ｖ２ and change passwords/tokens to the indicated values.**
 
 ### 4. Initialize Mosquitto password file
 
@@ -165,6 +167,9 @@ If you change MQTT_USER / MQTT_PASS in .env.
 ```bash
 docker compose up -d
 ```
+
+### 6. Check if you can access the services below
+
 
 ### 🌐 Access the services
 
