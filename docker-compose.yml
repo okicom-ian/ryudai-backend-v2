@@ -14,19 +14,6 @@ services:
       mysql:
         condition: service_healthy
 
-  # Creates /mosquitto/data/passwd from .env, then exits
-  mosquitto-init:
-    image: eclipse-mosquitto:2
-    user: "1883:1883"
-    command: >
-      sh -lc 'umask 077 &&
-              mosquitto_passwd -c -b /mosquitto/data/passwd "$MQTT_USER" "$MQTT_PASS"'
-    environment:
-      - MQTT_USER=${MQTT_USER}
-      - MQTT_PASS=${MQTT_PASS}
-    volumes:
-      - mosquitto_data:/mosquitto/data
-    restart: "no"
 
   mosquitto:
     image: eclipse-mosquitto:2
@@ -35,9 +22,6 @@ services:
       - ./mosquitto/config:/mosquitto/config
       - mosquitto_data:/mosquitto/data
       - mosquitto_log:/mosquitto/log
-    depends_on:
-      mosquitto-init:
-        condition: service_completed_successfully
     restart: unless-stopped
 
   influxdb:
