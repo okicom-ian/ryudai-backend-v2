@@ -1,0 +1,16 @@
+services:
+  mosquitto-init:
+    image: eclipse-mosquitto:2
+    user: "1883:1883"
+    command: >
+      sh -lc 'umask 077 &&
+              mosquitto_passwd -c -b /mosquitto/data/passwd "$MQTT_USER" "$MQTT_PASS"'
+    environment:
+      - MQTT_USER=${MQTT_USER}
+      - MQTT_PASS=${MQTT_PASS}
+    volumes:
+      - mosquitto_data:/mosquitto/data
+    restart: "no"
+
+volumes:
+  mosquitto_data:
