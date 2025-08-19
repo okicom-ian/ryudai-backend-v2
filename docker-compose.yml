@@ -1,0 +1,93 @@
+
+services:
+  nodered:
+    image: nodered/node-red:latest
+    ports: ["1880:1880"]
+    volumes: [ "nodered_data:/data" ]
+    environment: [ "TZ=Asia/Tokyo" ]
+    restart: unless-stopped
+    depends_on:
+      mosquitto:
+        condition: service_started
+      influxdb:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    ports: ["1883:1883","9001:9001"]
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_log:/mosquitto/log
+    restart: unless-stopped
+
+  influxdb:
+    image: influxdb:2.7
+    ports: ["8086:8086"]
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=adminryudai
+      - DOCKER_INFLUXDB_INIT_ORG=ryudai
+      - DOCKER_INFLUXDB_INIT_BUCKET=amr
+      - DOCKER_INFLUXDB_INIT_RETENTION=0s
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=dev-token-ryudai
+    volumes: [ "influxdb_data:/var/lib/influxdb2" ]
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.4.2
+    ports: ["3000:3000"]
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - INFLUX_ORG=ryudai
+      - INFLUX_BUCKET=amr
+      - INFLUX_TOKEN=dev-token-ryudai
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      influxdb:
+        condition: service_started
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=ryudai
+      - MYSQL_DATABASE=ryudai
+      - MYSQL_USER=ryudai
+      - MYSQL_PASSWORD=ryudai
+      - TZ=Asia/Tokyo
+    ports: ["3306:3306"]
+    volumes: [ "mysql_data:/var/lib/mysql" ]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-pryudai"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin:5.2
+    ports: ["8080:80"]
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=ryudai
+      - PMA_PASSWORD=ryudai
+      - UPLOAD_LIMIT=128M
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: always
+
+volumes:
+  nodered_data:
+  influxdb_data:
+  mysql_data:
+  mosquitto_data:
+  mosquitto_log:
