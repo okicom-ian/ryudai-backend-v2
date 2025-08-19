@@ -1,10 +1,10 @@
-
 services:
   nodered:
     image: nodered/node-red:latest
     ports: ["1880:1880"]
     volumes: [ "nodered_data:/data" ]
-    environment: [ "TZ=Asia/Tokyo" ]
+    environment:
+      - TZ=${TZ:-Asia/Tokyo}
     restart: unless-stopped
     depends_on:
       mosquitto:
@@ -14,6 +14,20 @@ services:
       mysql:
         condition: service_healthy
 
+  # Creates /mosquitto/data/passwd from .env, then exits
+  mosquitto-init:
+    image: eclipse-mosquitto:2
+    user: "1883:1883"
+    command: >
+      sh -lc 'umask 077 &&
+              mosquitto_passwd -c -b /mosquitto/data/passwd "$MQTT_USER" "$MQTT_PASS"'
+    environment:
+      - MQTT_USER=${MQTT_USER}
+      - MQTT_PASS=${MQTT_PASS}
+    volumes:
+      - mosquitto_data:/mosquitto/data
+    restart: "no"
+
   mosquitto:
     image: eclipse-mosquitto:2
     ports: ["1883:1883","9001:9001"]
@@ -21,19 +35,22 @@ services:
       - ./mosquitto/config:/mosquitto/config
       - mosquitto_data:/mosquitto/data
       - mosquitto_log:/mosquitto/log
+    depends_on:
+      mosquitto-init:
+        condition: service_completed_successfully
     restart: unless-stopped
 
   influxdb:
     image: influxdb:2.7
     ports: ["8086:8086"]
     environment:
-      - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=admin
-      - DOCKER_INFLUXDB_INIT_PASSWORD=adminryudai
-      - DOCKER_INFLUXDB_INIT_ORG=ryudai
-      - DOCKER_INFLUXDB_INIT_BUCKET=amr
-      - DOCKER_INFLUXDB_INIT_RETENTION=0s
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=dev-token-ryudai
+      - DOCKER_INFLUXDB_INIT_MODE=${DOCKER_INFLUXDB_INIT_MODE}
+      - DOCKER_INFLUXDB_INIT_USERNAME=${DOCKER_INFLUXDB_INIT_USERNAME}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${DOCKER_INFLUXDB_INIT_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=${DOCKER_INFLUXDB_INIT_ORG}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${DOCKER_INFLUXDB_INIT_BUCKET}
+      - DOCKER_INFLUXDB_INIT_RETENTION=${DOCKER_INFLUXDB_INIT_RETENTION}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${DOCKER_INFLUXDB_INIT_ADMIN_TOKEN}
     volumes: [ "influxdb_data:/var/lib/influxdb2" ]
     restart: unless-stopped
 
@@ -41,11 +58,11 @@ services:
     image: grafana/grafana:10.4.2
     ports: ["3000:3000"]
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - INFLUX_ORG=ryudai
-      - INFLUX_BUCKET=amr
-      - INFLUX_TOKEN=dev-token-ryudai
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
+      - INFLUX_ORG=${INFLUX_ORG}
+      - INFLUX_BUCKET=${INFLUX_BUCKET}
+      - INFLUX_TOKEN=${INFLUX_TOKEN}
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/var/lib/grafana/dashboards
@@ -58,15 +75,15 @@ services:
     image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      - MYSQL_ROOT_PASSWORD=ryudai
-      - MYSQL_DATABASE=ryudai
-      - MYSQL_USER=ryudai
-      - MYSQL_PASSWORD=ryudai
-      - TZ=Asia/Tokyo
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - TZ=${TZ:-Asia/Tokyo}
     ports: ["3306:3306"]
     volumes: [ "mysql_data:/var/lib/mysql" ]
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-pryudai"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 5s
       timeout: 3s
       retries: 20
@@ -77,9 +94,9 @@ services:
     ports: ["8080:80"]
     environment:
       - PMA_HOST=mysql
-      - PMA_USER=ryudai
-      - PMA_PASSWORD=ryudai
-      - UPLOAD_LIMIT=128M
+      - PMA_USER=${MYSQL_USER}
+      - PMA_PASSWORD=${MYSQL_PASSWORD}
+      - UPLOAD_LIMIT=${UPLOAD_LIMIT:-128M}
     depends_on:
       mysql:
         condition: service_healthy
