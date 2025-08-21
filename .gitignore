@@ -1,2 +1,15 @@
 .env
 mosquitto/config/passwd
+node-red-data/*.log
+node-red-data/lib/
+node-red-data/node_modules/
+node-red-data/.config*
+node-red-data/.sessions.json
+node-red-data/flows_cred.json
+
+node-red-data/*.log
+node-red-data/lib/
+node-red-data/node_modules/
+node-red-data/.config*
+node-red-data/.sessions.json
+node-red-data/flows_cred.json

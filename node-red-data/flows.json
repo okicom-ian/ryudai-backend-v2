@@ -1,0 +1,242 @@
+[
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "shimoji",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "103672ba7c179b6e",
+        "type": "websocket-listener",
+        "path": "/ws/robot",
+        "wholemsg": "false"
+    },
+    {
+        "id": "3cc11d24.ff01a2",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
+        "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
+        "x": 350,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "a8400bac234eb231",
+        "type": "websocket in",
+        "z": "f6f2187d.f17ca8",
+        "name": "WS IN /ws/robot",
+        "server": "103672ba7c179b6e",
+        "client": "",
+        "x": 200,
+        "y": 320,
+        "wires": [
+            [
+                "be29336aab49dd7a"
+            ]
+        ]
+    },
+    {
+        "id": "be29336aab49dd7a",
+        "type": "json",
+        "z": "f6f2187d.f17ca8",
+        "name": "parse",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 430,
+        "y": 320,
+        "wires": [
+            [
+                "854cd75871936263"
+            ]
+        ]
+    },
+    {
+        "id": "854cd75871936263",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "routeLaunch",
+        "func": "// 期待入力: { action: \"robot.launch\", robotId: 1, destination: \"13F 南倉庫\" }\n// 同じクライアントにACKとlaunched通知を返す（デモ）\n\nconst p = msg.payload || {};\nconst session = msg._session; // 応答先を指定するためのセッション情報\n\nif (p.action !== \"robot.launch\") {\n    // 他のアクションはここでは処理しない\n    return null;\n}\n\nconst robotId = p.robotId || 1;\nconst destination = p.destination || \"\";\n\nconst ack = {\n  payload: { type: \"ack\", ok: true, for: \"robot.launch\" },\n  _session: session\n};\n\nconst launched = {\n  payload: {\n    type: \"robot.launched\",\n    robotId: robotId + \"号機\",\n    destination,\n    at: new Date().toISOString()\n  },\n  _session: session\n};\n\n// 出力1: ack / 出力2: launched\nreturn [ack, launched];\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 320,
+        "wires": [
+            [
+                "151f95e659b6b252"
+            ],
+            [
+                "151f95e659b6b252"
+            ]
+        ]
+    },
+    {
+        "id": "151f95e659b6b252",
+        "type": "websocket out",
+        "z": "f6f2187d.f17ca8",
+        "name": "WS OUT /ws/robot",
+        "server": "103672ba7c179b6e",
+        "client": "",
+        "x": 890,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "155466fe4af826e1",
+        "type": "websocket in",
+        "z": "f6f2187d.f17ca8",
+        "name": "WS IN /ws/robot",
+        "server": "103672ba7c179b6e",
+        "client": "",
+        "x": 200,
+        "y": 460,
+        "wires": [
+            [
+                "12f199cadcb0a305"
+            ]
+        ]
+    },
+    {
+        "id": "12f199cadcb0a305",
+        "type": "json",
+        "z": "f6f2187d.f17ca8",
+        "name": "parse",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 430,
+        "y": 460,
+        "wires": [
+            [
+                "897691f6e9e677d6"
+            ]
+        ]
+    },
+    {
+        "id": "897691f6e9e677d6",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "manageSubscriptions",
+        "func": "// { action: \"battery.subscribe\", robotId: 1 }\n// { action: \"battery.unsubscribe\", robotId: 1 }\n\nlet subs = flow.get('subs') || {}; // ← flow に保存/取得\nconst p = msg.payload || {};\nconst session = msg._session;\n\nfunction ensureSet(key) {\n  if (!subs[key]) subs[key] = new Set();\n}\nfunction save() { flow.set('subs', subs); } // ← flow に保存\n\nif (p.action === \"battery.subscribe\") {\n  const key = String(p.robotId || 1);\n  ensureSet(key);\n  subs[key].add(session.id);\n  save();\n  return {\n    payload: { type: \"ack\", ok: true, for: \"battery.subscribe\", robotId: Number(key) },\n    _session: session\n  };\n}\n\nif (p.action === \"battery.unsubscribe\") {\n  const key = String(p.robotId || 1);\n  if (subs[key]) subs[key].delete(session.id);\n  save();\n  return {\n    payload: { type: \"ack\", ok: true, for: \"battery.unsubscribe\", robotId: Number(key) },\n    _session: session\n  };\n}\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 460,
+        "wires": [
+            [
+                "e3221f22b5258937"
+            ]
+        ]
+    },
+    {
+        "id": "e3221f22b5258937",
+        "type": "websocket out",
+        "z": "f6f2187d.f17ca8",
+        "name": "WS OUT /ws/robot",
+        "server": "103672ba7c179b6e",
+        "client": "",
+        "x": 950,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "a1eb1da4b1fa214e",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "battery tick (demo)",
+        "props": [],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "5",
+        "topic": "",
+        "x": 220,
+        "y": 540,
+        "wires": [
+            [
+                "b4d33457ad1c9701"
+            ]
+        ]
+    },
+    {
+        "id": "b4d33457ad1c9701",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "makeBatteryEvent",
+        "func": "// inject→functionとしているが本番はmqtt in→function\n// 例: ロボット1のバッテリー%をランダムで作る\nconst robotId = 1;\nconst percent = Math.floor(60 + Math.random() * 40); // 60-99%\nmsg.payload = { type: \"battery\", robotId, percent, at: new Date().toISOString() };\nreturn msg;\n\n//MQTTを使う場合はここを shapeBattery にして、受け取ったトピック/ペイロードを\n//{ type:'battery', robotId, percent, at } 形式に整形してください（下に例あり）。\n\n//mqtt in（例：Topic robots/1/battery、Payload が数値78 だけ）→ shapeBattery → diffOnly → broadcast → websocket out\n\n\n\n/** \nconst topic = msg.topic || \"\"; // 例: \"robots/1/battery\"\nconst m = topic.match(/^robots\\/(\\d+)\\/battery$/);\nconst robotId = m ? Number(m[1]) : 1;\n\nlet percent;\nif (typeof msg.payload === \"string\") {\n  try { percent = JSON.parse(msg.payload).percent; } catch(e) { percent = Number(msg.payload); }\n} else if (typeof msg.payload === \"number\") {\n  percent = msg.payload;\n} else if (msg.payload && typeof msg.payload === \"object\") {\n  percent = msg.payload.percent;\n}\n\nif (percent == null || isNaN(percent)) return null;\n\nmsg.payload = { type: \"battery\", robotId, percent: Number(percent), at: new Date().toISOString() };\nreturn msg;\n\n*/\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 540,
+        "wires": [
+            [
+                "92c20d3d130fe129"
+            ]
+        ]
+    },
+    {
+        "id": "92c20d3d130fe129",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "diffOnly",
+        "func": "const evt = msg.payload || {};\nconst key = `battery_prev_${evt.robotId}`;\nconst prev = flow.get(key);        // ← flow に変更しておくと他ノードでも参照可\nif (prev && prev.percent === evt.percent) return null;\nflow.set(key, { percent: evt.percent });\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 600,
+        "wires": [
+            [
+                "9004c99f8b91eb84"
+            ]
+        ]
+    },
+    {
+        "id": "9004c99f8b91eb84",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "broadcastToSubscribers",
+        "func": "// 入力: {type:'battery', robotId, percent, at}\nlet subs = flow.get('subs') || {}; // ← flow から取得\nconst evt = msg.payload;\nconst key = String(evt.robotId);\nconst set = subs[key];\nif (!set || set.size === 0) return null;\n\nconst out = [];\nset.forEach(sid => {\n  out.push({ payload: evt, _session: { id: sid } });\n});\nreturn [out];\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 660,
+        "wires": [
+            [
+                "5dfed597308a7176"
+            ]
+        ]
+    },
+    {
+        "id": "5dfed597308a7176",
+        "type": "websocket out",
+        "z": "f6f2187d.f17ca8",
+        "name": "WS OUT /ws/robot",
+        "server": "103672ba7c179b6e",
+        "client": "",
+        "x": 830,
+        "y": 540,
+        "wires": []
+    }
+]
