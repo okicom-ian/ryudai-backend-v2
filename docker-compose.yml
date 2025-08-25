@@ -1,27 +1,13 @@
 services:
   nodered:
-    image: nodered/node-red:3.1.9
+    image: nodered/node-red:3.1.9-18
     ports: ["1880:1880"]
     volumes: 
       - ./nodered-project:/data
     environment:
       - TZ=${TZ:-Asia/Tokyo}
       - NODE_RED_CREDENTIAL_SECRET=${NODE_RED_CREDENTIAL_SECRET}
-
     user: "1000:1000"
-    command: >
-      sh -lc '
-        set -e
-        cd /data
-        if [ -f package.json ]; then
-          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
-            npm ci || npm install
-          else
-            npm install
-          fi
-        fi
-        exec npm --no-update-notifier --no-fund --cache /data/.npm start -- --userDir /data
-      '
     restart: unless-stopped
     depends_on:
       mosquitto:
@@ -30,7 +16,6 @@ services:
         condition: service_started
       mysql:
         condition: service_healthy
-
 
   mosquitto:
     image: eclipse-mosquitto:2
