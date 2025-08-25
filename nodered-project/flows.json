@@ -1,11 +1,10 @@
 [
     {
-        "id": "a149896d4fafa3ab",
+        "id": "5b39971d54b68724",
         "type": "tab",
-        "label": "ian test",
+        "label": "ian",
         "disabled": false,
-        "info": "",
-        "env": []
+        "info": ""
     },
     {
         "id": "f6f2187d.f17ca8",
@@ -15,84 +14,693 @@
         "info": ""
     },
     {
+        "id": "0d23607fc2f4d572",
+        "type": "group",
+        "z": "5b39971d54b68724",
+        "name": "IoTデバイスからMQTT経由で上位システム側のデータ取得調査",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "d14f59a3d3105ec5",
+            "de1e9b85274f17a7",
+            "f6f82d79c7063f19",
+            "2abc9cf5e41f69e5",
+            "aeedfb86d479ce31",
+            "4d6417d1143a77b9",
+            "a5da2bc4cfdea491",
+            "6748fe8474874f20"
+        ],
+        "x": 214,
+        "y": 299,
+        "w": 512,
+        "h": 382
+    },
+    {
+        "id": "c968ddf71f053520",
+        "type": "group",
+        "z": "5b39971d54b68724",
+        "name": "上位システムからIoTデバイスへのMQTT経由によるコマンド送信調査（双方向の通信）",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "497a3dbfd939e19e",
+            "3f52ab17f18fc225",
+            "c0c25a58699587a4",
+            "12530938c34ec3c0",
+            "9a51e4f5eb114838",
+            "454dad52413e5f05",
+            "891f7efb94e01d62"
+        ],
+        "x": 214,
+        "y": 779,
+        "w": 592,
+        "h": 362
+    },
+    {
+        "id": "57063d4856650d2b",
+        "type": "group",
+        "z": "5b39971d54b68724",
+        "name": "EV WebSocket Bridge",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "79e89b1e96caf133",
+            "ed815cca5a5d2e8c",
+            "5e3732602033f7ca",
+            "53942d57e800835f",
+            "64686562eab75867",
+            "ed30a5e115c24d65",
+            "f4422ae7854ec709",
+            "f853d05b0e9e8e0e",
+            "6a6aa694f632d1d8",
+            "d2a41aae8c58ffcd"
+        ],
+        "x": 234,
+        "y": 1439,
+        "w": 812,
+        "h": 342
+    },
+    {
+        "id": "4d364df5c8cc2bf3",
+        "type": "group",
+        "z": "5b39971d54b68724",
+        "name": "Write EV → InfluxDB",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "b0b0a26c0cb3a28c",
+            "9410db2db256a066",
+            "9dec916b98286e1e",
+            "5eec1cb74eef3b22"
+        ],
+        "x": 494,
+        "y": 1259,
+        "w": 542,
+        "h": 142
+    },
+    {
         "id": "103672ba7c179b6e",
         "type": "websocket-listener",
         "path": "/ws/robot",
         "wholemsg": "false"
     },
     {
-        "id": "a5415e4f36e84d3f",
-        "type": "inject",
-        "z": "a149896d4fafa3ab",
+        "id": "7239e10e867e1851",
+        "type": "mqtt-broker",
         "name": "",
-        "props": [
-            {
-                "p": "payload"
+        "broker": "mosquitto",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "f36d6362f3993392",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "broker.hivemq.com",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "a557ecda6d17cc77",
+        "type": "websocket-listener",
+        "path": "/ev",
+        "wholemsg": "false"
+    },
+    {
+        "id": "301c95cd1129d4ee",
+        "type": "websocket-listener",
+        "path": "/ev-cmd",
+        "wholemsg": "false"
+    },
+    {
+        "id": "219c7e2f02459122",
+        "type": "websocket-listener",
+        "path": "/ws/robot",
+        "wholemsg": "false"
+    },
+    {
+        "id": "e6f411131650aa8b",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "5dc8d3d1849ead6c",
+        "type": "ui_group",
+        "name": "Temperature and Humidity",
+        "tab": "3b8f095ecc8af9cc",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "842825e46bdbcd22",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
             },
-            {
-                "p": "topic",
-                "vt": "str"
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
             }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 260,
-        "y": 200,
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "523df80924901659",
+        "type": "influxdb",
+        "hostname": "influxdb",
+        "port": "8086",
+        "protocol": "http",
+        "database": "amr",
+        "name": "InfluxDB v2 (set token)",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "http://influxdb:8086",
+        "timeout": "5000",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "4f99c3d154924f1b",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mosquitto",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "9d41611ab3a159e0",
+        "type": "ui_group",
+        "name": "Temperature and Humidity",
+        "tab": "22f709e0f28da4d7",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e3a2a26a8c88faa3",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "broker.hivemq.com",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "471164cd441bf6a2",
+        "type": "websocket-listener",
+        "path": "/ev",
+        "wholemsg": "false"
+    },
+    {
+        "id": "64712ec442e40c19",
+        "type": "websocket-listener",
+        "path": "/ev-cmd",
+        "wholemsg": "false"
+    },
+    {
+        "id": "1197d76efe1f6ccd",
+        "type": "influxdb",
+        "hostname": "influxdb",
+        "port": "8086",
+        "protocol": "http",
+        "database": "amr",
+        "name": "InfluxDB v2 (set token)",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "http://influxdb:8086",
+        "timeout": "5000",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "894dfe558dbbdd14",
+        "type": "websocket-listener",
+        "path": "/ws/robot",
+        "wholemsg": "false"
+    },
+    {
+        "id": "22f709e0f28da4d7",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "e2116ebd791ef2fd",
+        "type": "comment",
+        "z": "5b39971d54b68724",
+        "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
+        "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
+        "x": 350,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "d14f59a3d3105ec5",
+        "type": "mqtt in",
+        "z": "5b39971d54b68724",
+        "g": "0d23607fc2f4d572",
+        "name": "",
+        "topic": "okicom/humidity",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "4f99c3d154924f1b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 320,
+        "y": 360,
         "wires": [
             [
-                "8e781cbc8fe61216"
+                "aeedfb86d479ce31",
+                "6748fe8474874f20"
             ]
         ]
     },
     {
-        "id": "8e781cbc8fe61216",
-        "type": "debug",
-        "z": "a149896d4fafa3ab",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 480,
-        "y": 200,
-        "wires": []
-    },
-    {
-        "id": "5fb61de9ebe1ddaa",
-        "type": "debug",
-        "z": "a149896d4fafa3ab",
-        "name": "debug 2",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 480,
-        "y": 280,
-        "wires": []
-    },
-    {
-        "id": "a3727c9f54d61bd3",
-        "type": "inject",
-        "z": "a149896d4fafa3ab",
+        "id": "de1e9b85274f17a7",
+        "type": "mqtt in",
+        "z": "5b39971d54b68724",
+        "g": "0d23607fc2f4d572",
         "name": "",
+        "topic": "okicom/temperature",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "4f99c3d154924f1b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 330,
+        "y": 560,
+        "wires": [
+            [
+                "a5da2bc4cfdea491",
+                "4d6417d1143a77b9"
+            ]
+        ]
+    },
+    {
+        "id": "f6f82d79c7063f19",
+        "type": "debug",
+        "z": "5b39971d54b68724",
+        "g": "0d23607fc2f4d572",
+        "name": "msg.humidity",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 590,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "2abc9cf5e41f69e5",
+        "type": "debug",
+        "z": "5b39971d54b68724",
+        "g": "0d23607fc2f4d572",
+        "name": "msg.temperature",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 590,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "aeedfb86d479ce31",
+        "type": "ui_gauge",
+        "z": "5b39971d54b68724",
+        "g": "0d23607fc2f4d572",
+        "name": "",
+        "group": "9d41611ab3a159e0",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "湿度",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 570,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "4d6417d1143a77b9",
+        "type": "ui_gauge",
+        "z": "5b39971d54b68724",
+        "g": "0d23607fc2f4d572",
+        "name": "",
+        "group": "9d41611ab3a159e0",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "温度",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 550,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "a5da2bc4cfdea491",
+        "type": "ui_chart",
+        "z": "5b39971d54b68724",
+        "g": "0d23607fc2f4d572",
+        "name": "",
+        "group": "9d41611ab3a159e0",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "温度",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 550,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6748fe8474874f20",
+        "type": "ui_chart",
+        "z": "5b39971d54b68724",
+        "g": "0d23607fc2f4d572",
+        "name": "",
+        "group": "9d41611ab3a159e0",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "湿度",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 570,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "497a3dbfd939e19e",
+        "type": "mqtt out",
+        "z": "5b39971d54b68724",
+        "d": true,
+        "g": "c968ddf71f053520",
+        "name": "",
+        "topic": "elevator/demo/cmd",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "e3a2a26a8c88faa3",
+        "x": 690,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "3f52ab17f18fc225",
+        "type": "inject",
+        "z": "5b39971d54b68724",
+        "g": "c968ddf71f053520",
+        "name": "Go to 8",
         "props": [
             {
                 "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
             }
         ],
         "repeat": "",
@@ -100,15 +708,430 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "hello",
+        "payload": "CALL 8",
         "payloadType": "str",
-        "x": 250,
-        "y": 280,
+        "x": 310,
+        "y": 820,
         "wires": [
             [
-                "5fb61de9ebe1ddaa"
+                "497a3dbfd939e19e"
             ]
         ]
+    },
+    {
+        "id": "c0c25a58699587a4",
+        "type": "inject",
+        "z": "5b39971d54b68724",
+        "g": "c968ddf71f053520",
+        "name": "Go to 1",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "CALL 1",
+        "payloadType": "str",
+        "x": 310,
+        "y": 880,
+        "wires": [
+            [
+                "497a3dbfd939e19e"
+            ]
+        ]
+    },
+    {
+        "id": "12530938c34ec3c0",
+        "type": "mqtt in",
+        "z": "5b39971d54b68724",
+        "d": true,
+        "g": "c968ddf71f053520",
+        "name": "",
+        "topic": "elevator/demo/state",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "e3a2a26a8c88faa3",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 330,
+        "y": 1000,
+        "wires": [
+            [
+                "9a51e4f5eb114838"
+            ]
+        ]
+    },
+    {
+        "id": "9a51e4f5eb114838",
+        "type": "debug",
+        "z": "5b39971d54b68724",
+        "g": "c968ddf71f053520",
+        "name": "EV State",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "454dad52413e5f05",
+        "type": "mqtt in",
+        "z": "5b39971d54b68724",
+        "d": true,
+        "g": "c968ddf71f053520",
+        "name": "",
+        "topic": "elevator/demo/event",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "e3a2a26a8c88faa3",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 330,
+        "y": 1100,
+        "wires": [
+            [
+                "891f7efb94e01d62"
+            ]
+        ]
+    },
+    {
+        "id": "891f7efb94e01d62",
+        "type": "debug",
+        "z": "5b39971d54b68724",
+        "g": "c968ddf71f053520",
+        "name": "EV Event",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "79e89b1e96caf133",
+        "type": "mqtt in",
+        "z": "5b39971d54b68724",
+        "g": "57063d4856650d2b",
+        "name": "MQTT: EV state",
+        "topic": "elevator/demo/state",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "e3a2a26a8c88faa3",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 340,
+        "y": 1480,
+        "wires": [
+            [
+                "ed815cca5a5d2e8c",
+                "b0b0a26c0cb3a28c"
+            ]
+        ]
+    },
+    {
+        "id": "ed815cca5a5d2e8c",
+        "type": "function",
+        "z": "5b39971d54b68724",
+        "g": "57063d4856650d2b",
+        "name": "wrap → {type:'state', data, ts}",
+        "func": "return { payload: { type: 'state', data: msg.payload, ts: Date.now() } };",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 1480,
+        "wires": [
+            [
+                "5e3732602033f7ca"
+            ]
+        ]
+    },
+    {
+        "id": "5e3732602033f7ca",
+        "type": "websocket out",
+        "z": "5b39971d54b68724",
+        "g": "57063d4856650d2b",
+        "name": "WS broadcast /ev",
+        "server": "471164cd441bf6a2",
+        "client": "",
+        "x": 930,
+        "y": 1520,
+        "wires": []
+    },
+    {
+        "id": "53942d57e800835f",
+        "type": "mqtt in",
+        "z": "5b39971d54b68724",
+        "g": "57063d4856650d2b",
+        "name": "MQTT: EV event",
+        "topic": "elevator/demo/event",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "e3a2a26a8c88faa3",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 340,
+        "y": 1540,
+        "wires": [
+            [
+                "64686562eab75867",
+                "9dec916b98286e1e"
+            ]
+        ]
+    },
+    {
+        "id": "64686562eab75867",
+        "type": "function",
+        "z": "5b39971d54b68724",
+        "g": "57063d4856650d2b",
+        "name": "wrap → {type:'event', data, ts}",
+        "func": "return { payload: { type: 'event', data: msg.payload, ts: Date.now() } };",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 1540,
+        "wires": [
+            [
+                "5e3732602033f7ca"
+            ]
+        ]
+    },
+    {
+        "id": "ed30a5e115c24d65",
+        "type": "websocket in",
+        "z": "5b39971d54b68724",
+        "g": "57063d4856650d2b",
+        "name": "WS commands /ev-cmd",
+        "server": "64712ec442e40c19",
+        "client": "",
+        "x": 360,
+        "y": 1660,
+        "wires": [
+            [
+                "f4422ae7854ec709"
+            ]
+        ]
+    },
+    {
+        "id": "f4422ae7854ec709",
+        "type": "function",
+        "z": "5b39971d54b68724",
+        "g": "57063d4856650d2b",
+        "name": "normalize → 'CALL n'",
+        "func": "let text = '';\nif (typeof msg.payload === 'string') {\n    text = msg.payload;\n} else if (msg.payload && typeof msg.payload.cmd === 'string') {\n    text = msg.payload.cmd;\n} else if (msg.payload && typeof msg.payload === 'object') {\n    text = msg.payload.data || msg.payload.command || '';\n}\nif (!text) return null;\nmsg.payload = text; // e.g. \"CALL 8\" or \"CLEAR\"\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 1740,
+        "wires": [
+            [
+                "f853d05b0e9e8e0e"
+            ]
+        ]
+    },
+    {
+        "id": "f853d05b0e9e8e0e",
+        "type": "mqtt out",
+        "z": "5b39971d54b68724",
+        "g": "57063d4856650d2b",
+        "name": "MQTT → elevator/demo/cmd",
+        "topic": "elevator/demo/cmd",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "e3a2a26a8c88faa3",
+        "x": 870,
+        "y": 1740,
+        "wires": []
+    },
+    {
+        "id": "e0cd527e50539eac",
+        "type": "comment",
+        "z": "5b39971d54b68724",
+        "name": "Test Websocket via Dev tool",
+        "info": "\n1. Open you\n//view UPDATE\nconst ws = new WebSocket('ws://localhost:1880/ev');\nws.onmessage = (e)=>console.log('UPDATE:', e.data);\n\n\n//send command to ev\nconst cmd = new WebSocket('ws://localhost:1880/ev-cmd')\ncmd.onopen = () => cmd.send('CALL 8')   // or 'CALL 1', 'CLEAR'",
+        "x": 1140,
+        "y": 1620,
+        "wires": []
+    },
+    {
+        "id": "9e30b2feffce6edb",
+        "type": "comment",
+        "z": "5b39971d54b68724",
+        "name": "EV Simulation",
+        "info": "## 1. Open Wokwi\nhttps://wokwi.com/\n\n## 2. Select ESP32\n\n3. In the wifi-scan.ino\n## \n`#include <Keypad.h>\n#include <WiFi.h>\n#include <PubSubClient.h>\n\n/* ---------- WiFi + MQTT ---------- */\nconst char* WIFI_SSID = \"Wokwi-GUEST\";\nconst char* WIFI_PASS = \"\";\nconst char* MQTT_HOST = \"broker.hivemq.com\";\nconst uint16_t MQTT_PORT = 1883;\n\n// Topics\nconst char* TOPIC_STATE = \"elevator/demo/state\";\nconst char* TOPIC_EVENTS = \"elevator/demo/event\";\nconst char* TOPIC_CMD   = \"elevator/demo/cmd\";   // \"CALL n\", \"CLEAR\"\n\nWiFiClient wifi;\nPubSubClient mqtt(wifi);\n\n/* ---------- I/O (ESP32 pins) ---------- */\n// 12 LEDs: [0..7]=floors, [8]=door, [9]=moving, [10]=UP, [11]=DOWN\nconst uint8_t LEDS = 12;\nuint8_t ledPins[LEDS] = {\n  23,22,21,19,18,16,17,4,    // floors 1..8\n  2,5,                      // door, moving\n  15,3                     // UP, DOWN\n};\n// Keypad pins (safe ESP32 GPIOs)\nuint8_t rowPins[4] = { 32,33,25,26 };  // R1..R4\nuint8_t colPins[4] = { 14,12,13,27 };  // C1..C4\n\nchar keys[4][4] = {\n  { '1','2','3','A' },\n  { '4','5','6','B' },\n  { '7','8','9','C' },\n  { '*','0','#','D' }\n};\nKeypad kp(makeKeymap(keys), rowPins, colPins, 4, 4);\n\n/* ---------- Elevator FSM (unchanged) ---------- */\nenum State { ST_IDLE, ST_MOVING, ST_DOOR_OPEN };\nState state = ST_IDLE;\n\nconst uint8_t FLOORS = 8;\nint currentFloor = 0;          // 0..7\nint direction = 0;             // 0 idle, +1 up, -1 down\nuint16_t requests = 0;         // bitmask\nunsigned long tMove=0, tDoor=0;\nconst unsigned long MOVE_MS = 800;\nconst unsigned long DOOR_MS = 1500;\n\nvoid setReq(int f){ if(f>=0 && f<FLOORS) requests |= (1U<<f); }\nbool hasReqAbove(){ for(int f=currentFloor+1; f<FLOORS; ++f) if(requests&(1U<<f)) return true; return false; }\nbool hasReqBelow(){ for(int f=currentFloor-1; f>=0; --f)    if(requests&(1U<<f)) return true; return false; }\n\nvoid showArrows(bool up, bool down){\n  digitalWrite(ledPins[10], up);   // UP\n  digitalWrite(ledPins[11], down); // DOWN\n}\nvoid showMoving(bool on){ digitalWrite(ledPins[9], on); }\nvoid showDoor(bool open){ digitalWrite(ledPins[8], open); }\n\n/* ---------- MQTT helpers ---------- */\nvoid publishEvent(const char* msg) {\n  mqtt.publish(TOPIC_EVENTS, msg, false);\n}\nvoid publishState() {\n  char buf[128];\n  const char* s =\n    (state==ST_IDLE) ? \"IDLE\" :\n    (state==ST_MOVING) ? \"MOVING\" : \"DOOR_OPEN\";\n  int moving = (state==ST_MOVING);\n  int door   = (state==ST_DOOR_OPEN);\n  snprintf(buf, sizeof(buf),\n    \"{\\\"floor\\\":%d,\\\"state\\\":\\\"%s\\\",\\\"dir\\\":%d,\\\"door\\\":%d,\\\"moving\\\":%d,\\\"req\\\":%u}\",\n    currentFloor+1, s, direction, door, moving, (unsigned)requests);\n  mqtt.publish(TOPIC_STATE, buf, true); // retain latest\n}\n\nvoid onMqtt(char* topic, byte* payload, unsigned len){\n  if (len>=4 && !strncmp((char*)payload, \"CALL\", 4)) {\n    int n=0; if (sscanf((char*)payload+4, \"%d\", &n)==1 && n>=1 && n<=8) {\n      setReq(n-1); publishEvent(\"remote_call\");\n    }\n  } else if (len>=5 && !strncmp((char*)payload, \"CLEAR\", 5)) {\n    requests = 0; publishEvent(\"remote_clear\");\n  }\n}\n\nvoid ensureWifi() {\n  if (WiFi.status()==WL_CONNECTED) return;\n  WiFi.mode(WIFI_STA);\n  WiFi.begin(WIFI_SSID, WIFI_PASS);\n  while (WiFi.status()!=WL_CONNECTED) delay(250);\n}\nvoid ensureMqtt() {\n  while (!mqtt.connected()) {\n    String cid = \"esp32-lift-\" + String((uint32_t)micros(), HEX);\n    if (mqtt.connect(cid.c_str())) {\n      mqtt.subscribe(TOPIC_CMD);\n      publishEvent(\"online\");\n      publishState();\n    } else {\n      delay(500);\n    }\n  }\n}\n\n/* ---------- Arduino setup/loop ---------- */\nvoid setup(){\n  for (uint8_t i=0;i<LEDS;i++){ pinMode(ledPins[i], OUTPUT); digitalWrite(ledPins[i], LOW); }\n  digitalWrite(ledPins[currentFloor], HIGH);\n  showArrows(false,false); showDoor(false); showMoving(false);\n\n  WiFi.persistent(false);\n  ensureWifi();\n  mqtt.setServer(MQTT_HOST, MQTT_PORT);\n  mqtt.setCallback(onMqtt);\n  ensureMqtt();\n  publishState();\n}\n\nunsigned long lastPub=0;\n\nvoid loop(){\n  // keypad\n  if(char k = kp.getKey()){\n    if(k>='1' && k<='8'){ setReq(k-'1'); publishEvent(\"local_call\"); }\n    if(k=='#'){ requests=0; publishEvent(\"local_clear\"); }\n  }\n\n  unsigned long now = millis();\n  switch(state){\n    case ST_IDLE:\n      showArrows(false,false); showDoor(false); showMoving(false);\n      if(requests & (1U<<currentFloor)){\n        requests &= ~(1U<<currentFloor);\n        state = ST_DOOR_OPEN; tDoor = now + DOOR_MS; showDoor(true); publishState(); break;\n      }\n      if(requests){\n        if(hasReqAbove()) direction=+1; else if(hasReqBelow()) direction=-1; else direction=0;\n        if(direction){ digitalWrite(ledPins[currentFloor], LOW); showArrows(direction>0, direction<0);\n          showMoving(true); state = ST_MOVING; tMove = now + MOVE_MS; publishState(); }\n      }\n      break;\n\n    case ST_MOVING:\n      showArrows(direction>0, direction<0); showMoving(true);\n      if(now >= tMove){\n        currentFloor += direction;\n        digitalWrite(ledPins[currentFloor], HIGH);\n        if(requests & (1U<<currentFloor)){\n          requests &= ~(1U<<currentFloor);\n          showArrows(false,false); showMoving(false);\n          state = ST_DOOR_OPEN; tDoor = now + DOOR_MS; showDoor(true); publishState();\n        } else {\n          bool contSame = (direction>0 && hasReqAbove()) || (direction<0 && hasReqBelow());\n          bool needRev  = (direction>0 && hasReqBelow()) || (direction<0 && hasReqAbove());\n          if(contSame){ digitalWrite(ledPins[currentFloor], LOW); tMove = now + MOVE_MS; }\n          else if(needRev){ direction = -direction; showArrows(direction>0, direction<0);\n                            digitalWrite(ledPins[currentFloor], LOW); tMove = now + MOVE_MS; }\n          else { showArrows(false,false); showMoving(false); state = ST_IDLE; publishState(); }\n        }\n      }\n      break;\n\n    case ST_DOOR_OPEN:\n      showArrows(false,false); showDoor(true); showMoving(false);\n      if(now >= tDoor){\n        showDoor(false);\n        if(hasReqAbove() || hasReqBelow()){\n          direction = hasReqAbove()? +1 : -1;\n          digitalWrite(ledPins[currentFloor], LOW);\n          showArrows(direction>0, direction<0); showMoving(true);\n          state = ST_MOVING; tMove = now + MOVE_MS;\n        } else { direction=0; state=ST_IDLE; }\n        publishState();\n      }\n      break;\n  }\n\n  if (WiFi.status()!=WL_CONNECTED) ensureWifi();\n  if (!mqtt.connected()) ensureMqtt();\n  mqtt.loop();\n\n  if (now - lastPub >= 1000) { lastPub = now; publishState(); }\n}\n`\n\n## 4. Paste the below code in the diagram.json\n`{\n  \"version\": 1,\n  \"author\": \"Elevator MQTT (ESP32)\",\n  \"editor\": \"wokwi\",\n  \"parts\": [\n    { \"type\": \"wokwi-esp32-devkit-v1\", \"id\": \"esp\", \"top\": 139.1, \"left\": 359.8, \"attrs\": {} },\n    { \"type\": \"wokwi-membrane-keypad\", \"id\": \"keypad1\", \"top\": -21.2, \"left\": -52, \"attrs\": {} },\n    {\n      \"type\": \"wokwi-led\",\n      \"id\": \"led1\",\n      \"top\": 20,\n      \"left\": 280,\n      \"attrs\": { \"color\": \"blue\", \"label\": \"8\" }\n    },\n    {\n      \"type\": \"wokwi-led\",\n      \"id\": \"led2\",\n      \"top\": 20,\n      \"left\": 300,\n      \"attrs\": { \"color\": \"blue\", \"label\": \"7\" }\n    },\n    {\n      \"type\": \"wokwi-led\",\n      \"id\": \"led3\",\n      \"top\": 20,\n      \"left\": 320,\n      \"attrs\": { \"color\": \"blue\", \"label\": \"6\" }\n    },\n    {\n      \"type\": \"wokwi-led\",\n      \"id\": \"led4\",\n      \"top\": 20,\n      \"left\": 340,\n      \"attrs\": { \"color\": \"blue\", \"label\": \"5\" }\n    },\n    {\n      \"type\": \"wokwi-led\",\n      \"id\": \"led5\",\n      \"top\": 20,\n      \"left\": 360,\n      \"attrs\": { \"color\": \"blue\", \"label\": \"4\" }\n    },\n    {\n      \"type\": \"wokwi-led\",\n      \"id\": \"led6\",\n      \"top\": 20,\n      \"left\": 380,\n      \"attrs\": { \"color\": \"blue\", \"label\": \"3\" }\n    },\n    {\n      \"type\": \"wokwi-led\",\n      \"id\": \"led7\",\n      \"top\": 20,\n      \"left\": 400,\n      \"attrs\": { \"color\": \"blue\", \"label\": \"2\" }\n    },\n    {\n      \"type\": \"wokwi-led\",\n      \"id\": \"led8\",\n      \"top\": 20,\n      \"left\": 420,\n      \"attrs\": { \"color\": \"blue\", \"label\": \"1\" }\n    },\n    {\n      \"type\": \"wokwi-led\",\n      \"id\": \"led9\",\n      \"top\": -22.8,\n      \"left\": 455,\n      \"attrs\": { \"color\": \"yellow\", \"label\": \"A (Door)\" }\n    },\n    {\n      \"type\": \"wokwi-led\",\n      \"id\": \"led10\",\n      \"top\": -22.8,\n      \"left\": 493.4,\n      \"attrs\": { \"color\": \"limegreen\", \"label\": \"B (Moving)\" }\n    },\n    {\n      \"type\": \"wokwi-led\",\n      \"id\": \"led11\",\n      \"top\": -22.8,\n      \"left\": 541.4,\n      \"attrs\": { \"color\": \"purple\", \"label\": \"C (UP)\" }\n    },\n    {\n      \"type\": \"wokwi-led\",\n      \"id\": \"led12\",\n      \"top\": -22.8,\n      \"left\": 599,\n      \"attrs\": { \"color\": \"cyan\", \"label\": \"D (DOWN)\" }\n    },\n    {\n      \"type\": \"wokwi-resistor\",\n      \"id\": \"r1\",\n      \"top\": 90,\n      \"left\": 275,\n      \"rotate\": 90,\n      \"attrs\": { \"value\": \"220\" }\n    },\n    {\n      \"type\": \"wokwi-resistor\",\n      \"id\": \"r2\",\n      \"top\": 90,\n      \"left\": 295,\n      \"rotate\": 90,\n      \"attrs\": { \"value\": \"220\" }\n    },\n    {\n      \"type\": \"wokwi-resistor\",\n      \"id\": \"r3\",\n      \"top\": 90,\n      \"left\": 315,\n      \"rotate\": 90,\n      \"attrs\": { \"value\": \"220\" }\n    },\n    {\n      \"type\": \"wokwi-resistor\",\n      \"id\": \"r4\",\n      \"top\": 90,\n      \"left\": 335,\n      \"rotate\": 90,\n      \"attrs\": { \"value\": \"220\" }\n    },\n    {\n      \"type\": \"wokwi-resistor\",\n      \"id\": \"r5\",\n      \"top\": 90,\n      \"left\": 355,\n      \"rotate\": 90,\n      \"attrs\": { \"value\": \"220\" }\n    },\n    {\n      \"type\": \"wokwi-resistor\",\n      \"id\": \"r6\",\n      \"top\": 90,\n      \"left\": 375,\n      \"rotate\": 90,\n      \"attrs\": { \"value\": \"220\" }\n    },\n    {\n      \"type\": \"wokwi-resistor\",\n      \"id\": \"r7\",\n      \"top\": 90,\n      \"left\": 395,\n      \"rotate\": 90,\n      \"attrs\": { \"value\": \"220\" }\n    },\n    {\n      \"type\": \"wokwi-resistor\",\n      \"id\": \"r8\",\n      \"top\": 90,\n      \"left\": 415,\n      \"rotate\": 90,\n      \"attrs\": { \"value\": \"220\" }\n    },\n    {\n      \"type\": \"wokwi-resistor\",\n      \"id\": \"r9\",\n      \"top\": 90,\n      \"left\": 435,\n      \"rotate\": 90,\n      \"attrs\": { \"value\": \"220\" }\n    },\n    {\n      \"type\": \"wokwi-resistor\",\n      \"id\": \"r10\",\n      \"top\": 90,\n      \"left\": 455,\n      \"rotate\": 90,\n      \"attrs\": { \"value\": \"220\" }\n    },\n    {\n      \"type\": \"wokwi-resistor\",\n      \"id\": \"r11\",\n      \"top\": 90,\n      \"left\": 475,\n      \"rotate\": 90,\n      \"attrs\": { \"value\": \"220\" }\n    },\n    {\n      \"type\": \"wokwi-resistor\",\n      \"id\": \"r12\",\n      \"top\": 90,\n      \"left\": 495,\n      \"rotate\": 90,\n      \"attrs\": { \"value\": \"220\" }\n    }\n  ],\n  \"connections\": [\n    [ \"keypad1:R1\", \"esp:D32\", \"green\", [ \"v96\", \"h317\" ] ],\n    [ \"keypad1:R2\", \"esp:D33\", \"green\", [ \"v115.2\", \"h307\" ] ],\n    [ \"keypad1:R3\", \"esp:D25\", \"green\", [ \"v124.8\", \"h297.5\" ] ],\n    [ \"keypad1:R4\", \"esp:D26\", \"green\", [ \"v105.6\", \"h172.6\", \"v-181.4\" ] ],\n    [ \"keypad1:C1\", \"esp:D14\", \"green\", [ \"v19.2\", \"h172.7\", \"v-76\" ] ],\n    [ \"keypad1:C2\", \"esp:D12\", \"green\", [ \"v38.4\", \"h269\" ] ],\n    [ \"keypad1:C3\", \"esp:D13\", \"green\", [ \"v67.2\", \"h259.25\" ] ],\n    [ \"keypad1:C4\", \"esp:D27\", \"green\", [ \"v86.4\", \"h249.5\" ] ],\n    [ \"r1:1\", \"led1:A\", \"green\", [] ],\n    [ \"r2:1\", \"led2:A\", \"green\", [] ],\n    [ \"r3:1\", \"led3:A\", \"green\", [] ],\n    [ \"r4:1\", \"led4:A\", \"green\", [] ],\n    [ \"r5:1\", \"led5:A\", \"green\", [] ],\n    [ \"r6:1\", \"led6:A\", \"green\", [] ],\n    [ \"r7:1\", \"led7:A\", \"green\", [] ],\n    [ \"r8:1\", \"led8:A\", \"green\", [] ],\n    [ \"r9:1\", \"led9:A\", \"green\", [] ],\n    [ \"r10:1\", \"led10:A\", \"green\", [] ],\n    [ \"r11:1\", \"led11:A\", \"green\", [] ],\n    [ \"r12:1\", \"led12:A\", \"green\", [] ],\n    [ \"esp:D4\", \"r1:2\", \"green\", [] ],\n    [ \"esp:TX2\", \"r2:2\", \"green\", [] ],\n    [ \"esp:RX2\", \"r3:2\", \"green\", [] ],\n    [ \"esp:D18\", \"r4:2\", \"green\", [] ],\n    [ \"esp:D19\", \"r5:2\", \"green\", [] ],\n    [ \"esp:D21\", \"r6:2\", \"green\", [] ],\n    [ \"esp:D22\", \"r7:2\", \"green\", [] ],\n    [ \"esp:D23\", \"r8:2\", \"green\", [] ],\n    [ \"esp:D2\", \"r9:2\", \"green\", [] ],\n    [ \"esp:D5\", \"r10:2\", \"green\", [] ],\n    [ \"esp:D15\", \"r11:2\", \"green\", [] ],\n    [ \"esp:RX0\", \"r12:2\", \"green\", [] ],\n    [ \"esp:GND.2\", \"led1:C\", \"black\", [] ],\n    [ \"esp:GND.2\", \"led2:C\", \"black\", [] ],\n    [ \"esp:GND.2\", \"led3:C\", \"black\", [] ],\n    [ \"esp:GND.2\", \"led4:C\", \"black\", [] ],\n    [ \"esp:GND.2\", \"led5:C\", \"black\", [] ],\n    [ \"esp:GND.2\", \"led6:C\", \"black\", [] ],\n    [ \"esp:GND.2\", \"led7:C\", \"black\", [] ],\n    [ \"esp:GND.2\", \"led8:C\", \"black\", [] ],\n    [ \"esp:GND.2\", \"led9:C\", \"black\", [] ],\n    [ \"esp:GND.2\", \"led10:C\", \"black\", [] ],\n    [ \"esp:GND.2\", \"led11:C\", \"black\", [] ],\n    [ \"esp:GND.2\", \"led12:C\", \"black\", [] ]\n  ],\n  \"dependencies\": {}\n}`\n\n\n## 5. In the Library Manager Tab\nAdd:\n ・Keypad\n ・PubSubClient\n ・WiFi\n\n\n## 6.  Start Simulation\n",
+        "x": 850,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "a352250cae37a253",
+        "type": "comment",
+        "z": "5b39971d54b68724",
+        "name": "Simplex Communication Test Code",
+        "info": "# Requirement:\n・ESP32\n・DHT11Sensor\n\n# Arduino Code:\n`#ifdef ESP8266\n  #include <ESP8266WiFi.h>\n#else\n  #include <WiFi.h>\n#endif\n#include <PubSubClient.h>\n#include \"DHTesp.h\"\n\nconst unsigned long PUBLISH_INTERVAL = 10000; // send data every 10 seconds\nconst int DHT_PIN = 5;\n\nDHTesp dhtSensor;\n\n//const char* mqtt_server = \"broker.hivemq.com\";\n\n\n//Okicom Wi-Fi\n//const char* ssid = \"okicom-1Fkaigi\";\n//const char* password = ＜okicom pass＞;\n//const char* mqtt_server = <current ip>; // Host machine IP\n\nconst int   mqtt_port   = 1883;\nconst char* mqtt_user   = <user>;\nconst char* mqtt_pass   = <password>;\n\nWiFiClient espClient;\nPubSubClient client(espClient);\nunsigned long lastMsg = 0;\n#define MSG_BUFFER_SIZE  (50)\nfloat temp = 0;\nfloat hum = 0;\nint value = 0;\n\nvoid setup_wifi() {\n\n  delay(10);\n  // We start by connecting to a WiFi network\n  Serial.println();\n  Serial.print(\"Connecting to \");\n  Serial.println(ssid);\n\n  WiFi.mode(WIFI_STA);\n  WiFi.begin(ssid, password);\n\n  while (WiFi.status() != WL_CONNECTED) {\n    delay(500);\n    Serial.print(\".\");\n  }\n\n  randomSeed(micros());\n\n  Serial.println(\"\");\n  Serial.println(\"WiFi connected\");\n  Serial.println(\"IP address: \");\n  Serial.println(WiFi.localIP());\n}\n\nvoid callback(char* topic, byte* payload, unsigned int length) {\n  Serial.print(\"Message arrived [\");\n  Serial.print(topic);\n  Serial.print(\"] \");\n  for (int i = 0; i < length; i++) {\n    Serial.print((char)payload[i]);\n  }\n  Serial.println();\n\n  // Switch on the LED if an 1 was received as first character\n  if ((char)payload[0] == '1') {\n    digitalWrite(2, LOW);   // Turn the LED on (Note that LOW is the voltage level\n    // but actually the LED is on; this is because\n    // it is active low on the ESP-01)\n  } else {\n    digitalWrite(2, HIGH);  // Turn the LED off by making the voltage HIGH\n  }\n\n}\n\n// void reconnect() {\n//   // Loop until we're reconnected\n//   while (!client.connected()) {\n//     Serial.print(\"Attempting MQTT connection...\");\n//     // Create a random client ID\n//     String clientId = \"ESP8266Client-\";\n//     clientId += String(random(0xffff), HEX);\n//     // Attempt to connect\n//     if (client.connect(clientId.c_str())) {\n//       Serial.println(\"Connected\");\n//       // Once connected, publish an announcement...\n//       client.publish(\"iotfrontier/mqtt\", \"iotfrontier\");\n//       // ... and resubscribe\n//       client.subscribe(\"iotfrontier/mqtt\");\n//     } else {\n//       Serial.print(\"failed, rc=\");\n//       Serial.print(client.state());\n//       Serial.println(\" try again in 5 seconds\");\n//       // Wait 5 seconds before retrying\n//       delay(5000);\n//     }\n//   }\n// }\n\nvoid reconnect() {\n  while (!client.connected()) {\n    Serial.print(\"Attempting MQTT connection...\");\n    String clientId = \"ESP8285-\";\n    clientId += String(ESP.getChipId(), HEX);   // unique client id\n\n    // Optional: Last Will (so Node-RED knows if device drops offline)\n    const char* willTopic = \"okicom/status\";\n    const char* willMsg   = \"offline\";\n    bool cleanSession = true;\n    int  willQos = 0;\n    bool willRetain = true;\n\n    if (client.connect(clientId.c_str(), mqtt_user, mqtt_pass,\n                       willTopic, willQos, willRetain, willMsg, cleanSession)) {\n      Serial.println(\"connected\");\n      client.publish(\"okicom/status\", \"online\", true);  // retained\n      client.subscribe(\"okicom/cmd\");                   // if you need commands\n    } else {\n      Serial.print(\"failed, rc=\"); Serial.print(client.state());\n      Serial.println(\" try again in 5 seconds\");\n      delay(5000);\n    }\n  }\n}\n\nvoid setup() {\n  pinMode(2, OUTPUT);     // Initialize the BUILTIN_LED pin as an output\n  Serial.begin(115200);\n  setup_wifi();\n  client.setServer(mqtt_server, 1883);\n  client.setCallback(callback);\n  dhtSensor.setup(DHT_PIN, DHTesp::DHT11);\n}\n\nvoid loop() {\n\n  if (!client.connected()) {\n    reconnect();\n  }\n  client.loop();\n\n  unsigned long now = millis();\n  if (now - lastMsg > PUBLISH_INTERVAL) {  \n    lastMsg = now;\n    TempAndHumidity  data = dhtSensor.getTempAndHumidity();\n\n    String temp = String(data.temperature, 2);\n    Serial.print(\"Temperature: \");\n    Serial.println(temp);\n    client.publish(\"okicom/temperature\", temp.c_str());\n    \n    String hum = String(data.humidity, 1);\n    Serial.print(\"Humidity: \");\n    Serial.println(hum);\n    client.publish(\"okicom/humidity\", hum.c_str());\n  }\n}`",
+        "x": 860,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "6a6aa694f632d1d8",
+        "type": "inject",
+        "z": "5b39971d54b68724",
+        "g": "57063d4856650d2b",
+        "name": "Go to 8",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "CALL 8",
+        "payloadType": "str",
+        "x": 590,
+        "y": 1620,
+        "wires": [
+            [
+                "f853d05b0e9e8e0e"
+            ]
+        ]
+    },
+    {
+        "id": "d2a41aae8c58ffcd",
+        "type": "inject",
+        "z": "5b39971d54b68724",
+        "g": "57063d4856650d2b",
+        "name": "Go to 1",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "CALL 1",
+        "payloadType": "str",
+        "x": 590,
+        "y": 1680,
+        "wires": [
+            [
+                "f853d05b0e9e8e0e"
+            ]
+        ]
+    },
+    {
+        "id": "b0b0a26c0cb3a28c",
+        "type": "function",
+        "z": "5b39971d54b68724",
+        "g": "4d364df5c8cc2bf3",
+        "name": "to influx: elevator_state",
+        "func": "// msg.payload comes from MQTT 'elevator/demo/state' (JSON string or object)\nlet p = msg.payload;\nif (typeof p === 'string') { try { p = JSON.parse(p); } catch (e) { return null; } }\nif (!p) return null;\nconst elevator = flow.get('elevator_id') || 'EV1';\nconst fields = {\n  floor: Number(p.floor),\n  dir: Number(p.dir),\n  door: Number(p.door),\n  moving: Number(p.moving),\n  req: Number(p.req)\n};\n// drop NaNs\nObject.keys(fields).forEach(k => { if (!Number.isFinite(fields[k])) delete fields[k]; });\nmsg.payload = [{\n  measurement: 'elevator_state',\n  tags: { elevator, source: 'esp32', state: String(p.state || 'UNKNOWN') },\n  fields,\n  timestamp: Date.now() // ms\n}];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 630,
+        "y": 1300,
+        "wires": [
+            [
+                "9410db2db256a066"
+            ]
+        ]
+    },
+    {
+        "id": "9410db2db256a066",
+        "type": "influxdb out",
+        "z": "5b39971d54b68724",
+        "g": "4d364df5c8cc2bf3",
+        "influxdb": "1197d76efe1f6ccd",
+        "name": "InfluxDB write: state",
+        "measurement": "",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "ryudai",
+        "bucket": "amr",
+        "x": 910,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "9dec916b98286e1e",
+        "type": "function",
+        "z": "5b39971d54b68724",
+        "g": "4d364df5c8cc2bf3",
+        "name": "to influx: elevator_event",
+        "func": "// msg.payload comes from MQTT 'elevator/demo/event' (text)\nconst elevator = flow.get('elevator_id') || 'EV1';\nconst ev = (typeof msg.payload === 'string') ? msg.payload : JSON.stringify(msg.payload);\nmsg.payload = [{\n  measurement: 'elevator_event',\n  tags: { elevator, event: String(ev) },\n  fields: { count: 1 },\n  timestamp: Date.now()\n}];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 630,
+        "y": 1360,
+        "wires": [
+            [
+                "5eec1cb74eef3b22"
+            ]
+        ]
+    },
+    {
+        "id": "5eec1cb74eef3b22",
+        "type": "influxdb out",
+        "z": "5b39971d54b68724",
+        "g": "4d364df5c8cc2bf3",
+        "influxdb": "1197d76efe1f6ccd",
+        "name": "InfluxDB write: event",
+        "measurement": "",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "ryudai",
+        "bucket": "amr",
+        "x": 910,
+        "y": 1360,
+        "wires": []
     },
     {
         "id": "3cc11d24.ff01a2",
