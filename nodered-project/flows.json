@@ -14,6 +14,13 @@
         "info": ""
     },
     {
+        "id": "e2e1ba42884743b6",
+        "type": "tab",
+        "label": "yamaguchi",
+        "disabled": false,
+        "info": ""
+    },
+    {
         "id": "0d23607fc2f4d572",
         "type": "group",
         "z": "5b39971d54b68724",
@@ -431,6 +438,31 @@
         "icon": "dashboard",
         "disabled": false,
         "hidden": false
+    },
+    {
+        "id": "ec66c569b1912812",
+        "type": "MySQLdatabase",
+        "name": "TestDB",
+        "host": "host.docker.internal",
+        "port": "3306",
+        "db": "default",
+        "tz": "",
+        "charset": "UTF8MB4"
+    },
+    {
+        "id": "13278b9365b6412a",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "database",
+        "name": "",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "http://influxdb:8086",
+        "timeout": "10",
+        "rejectUnauthorized": true
     },
     {
         "id": "e2116ebd791ef2fd",
@@ -1358,6 +1390,395 @@
         "client": "",
         "x": 830,
         "y": 540,
+        "wires": []
+    },
+    {
+        "id": "0021409099c6c614",
+        "type": "inject",
+        "z": "e2e1ba42884743b6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 120,
+        "wires": [
+            [
+                "0a012fd1ad095b63"
+            ]
+        ]
+    },
+    {
+        "id": "65d916d9df89965a",
+        "type": "debug",
+        "z": "e2e1ba42884743b6",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "0a012fd1ad095b63",
+        "type": "function",
+        "z": "e2e1ba42884743b6",
+        "name": "function 1",
+        "func": "// ペイロードから日付オブジェクトを生成\nvar date = new Date(msg.payload);\n// 日付文字列に変換して再度ペイロードをセット\nmsg.payload = date.toString();\n// 次のノードへmsgオブジェクトを返す\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 120,
+        "wires": [
+            [
+                "65d916d9df89965a"
+            ]
+        ]
+    },
+    {
+        "id": "27001bb9612b19fc",
+        "type": "http request",
+        "z": "e2e1ba42884743b6",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.csv",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 330,
+        "y": 240,
+        "wires": [
+            [
+                "9c321208fc976f27"
+            ]
+        ]
+    },
+    {
+        "id": "9c321208fc976f27",
+        "type": "csv",
+        "z": "e2e1ba42884743b6",
+        "name": "",
+        "sep": ",",
+        "hdrin": true,
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 510,
+        "y": 240,
+        "wires": [
+            [
+                "a665ee5a69e9334e",
+                "1cd8a37b2bd87c98"
+            ]
+        ]
+    },
+    {
+        "id": "a665ee5a69e9334e",
+        "type": "debug",
+        "z": "e2e1ba42884743b6",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "5131bd81746c03fd",
+        "type": "inject",
+        "z": "e2e1ba42884743b6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 240,
+        "wires": [
+            [
+                "27001bb9612b19fc"
+            ]
+        ]
+    },
+    {
+        "id": "1cd8a37b2bd87c98",
+        "type": "switch",
+        "z": "e2e1ba42884743b6",
+        "name": "",
+        "property": "payload.mag",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "7",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 670,
+        "y": 300,
+        "wires": [
+            [
+                "4d2c9ae85303fb3b"
+            ]
+        ]
+    },
+    {
+        "id": "4d2c9ae85303fb3b",
+        "type": "change",
+        "z": "e2e1ba42884743b6",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "PANIC!",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 880,
+        "y": 300,
+        "wires": [
+            [
+                "3e36afd67ac4bfe7"
+            ]
+        ]
+    },
+    {
+        "id": "3e36afd67ac4bfe7",
+        "type": "debug",
+        "z": "e2e1ba42884743b6",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "b3ea4a835433f882",
+        "type": "inject",
+        "z": "e2e1ba42884743b6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 480,
+        "wires": [
+            [
+                "d8f1c626366e8b62"
+            ]
+        ]
+    },
+    {
+        "id": "af9ddd1d545fae7a",
+        "type": "debug",
+        "z": "e2e1ba42884743b6",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "d8f1c626366e8b62",
+        "type": "function",
+        "z": "e2e1ba42884743b6",
+        "name": "select文を準備",
+        "func": "msg.topic = \"select * from era_names;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 480,
+        "wires": [
+            [
+                "0166a7282a6c5592"
+            ]
+        ]
+    },
+    {
+        "id": "0166a7282a6c5592",
+        "type": "mysql",
+        "z": "e2e1ba42884743b6",
+        "mydb": "ec66c569b1912812",
+        "name": "test",
+        "x": 480,
+        "y": 480,
+        "wires": [
+            [
+                "af9ddd1d545fae7a"
+            ]
+        ]
+    },
+    {
+        "id": "61364452502a4768",
+        "type": "influxdb out",
+        "z": "e2e1ba42884743b6",
+        "influxdb": "13278b9365b6412a",
+        "name": "",
+        "measurement": "",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "ryudai",
+        "bucket": "amr",
+        "x": 510,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "b6e0a22ec811ef35",
+        "type": "inject",
+        "z": "e2e1ba42884743b6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 600,
+        "wires": [
+            [
+                "b28458253b9c7be1"
+            ]
+        ]
+    },
+    {
+        "id": "b28458253b9c7be1",
+        "type": "function",
+        "z": "e2e1ba42884743b6",
+        "name": "function 2",
+        "func": "msg.measurement = \"temperature\";\nmsg.fields = { value: Math.random() * 10 + 20 };\nmsg.tags = { location: \"lab\" };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 600,
+        "wires": [
+            [
+                "61364452502a4768",
+                "db9a586898e64f48"
+            ]
+        ]
+    },
+    {
+        "id": "db9a586898e64f48",
+        "type": "debug",
+        "z": "e2e1ba42884743b6",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 660,
         "wires": []
     }
 ]
