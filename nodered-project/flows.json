@@ -77,9 +77,38 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 460,
-        "y": 320,
+        "x": 480,
+        "y": 280,
         "wires": []
+    },
+    {
+        "id": "a3727c9f54d61bd3",
+        "type": "inject",
+        "z": "a149896d4fafa3ab",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "hello",
+        "payloadType": "str",
+        "x": 250,
+        "y": 280,
+        "wires": [
+            [
+                "5fb61de9ebe1ddaa"
+            ]
+        ]
     },
     {
         "id": "3cc11d24.ff01a2",
