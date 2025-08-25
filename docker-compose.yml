@@ -69,6 +69,7 @@ services:
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - grafana_data:/var/lib/grafana
     depends_on:
       influxdb:
         condition: service_started
@@ -108,5 +109,6 @@ services:
 volumes:
   influxdb_data:
   mysql_data:
+  grafana_data:   
   mosquitto_data:
   mosquitto_log:
