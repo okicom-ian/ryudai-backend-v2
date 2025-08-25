@@ -1,15 +1,29 @@
+# root-level .gitignore
 .env
 mosquitto/config/passwd
-node-red-data/*.log
-node-red-data/lib/
-node-red-data/node_modules/
-node-red-data/.config*
-node-red-data/.sessions.json
-node-red-data/flows_cred.json
 
-node-red-data/*.log
-node-red-data/lib/
-node-red-data/node_modules/
-node-red-data/.config*
-node-red-data/.sessions.json
-node-red-data/flows_cred.json
+
+# Node runtime modules and cache
+node_modules/
+.npm/
+
+# Logs & debug artifacts
+*.log
+logs/
+debug.log
+
+# Node-RED runtime config files (auto-generated)
+.config.*
+.sessions.json
+.context/
+context/
+
+# Project metadata (only needed if Projects are enabled in-editor)
+projects/
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.backup

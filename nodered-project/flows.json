@@ -1,5 +1,13 @@
 [
     {
+        "id": "a149896d4fafa3ab",
+        "type": "tab",
+        "label": "ian test",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "f6f2187d.f17ca8",
         "type": "tab",
         "label": "shimoji",
@@ -11,6 +19,51 @@
         "type": "websocket-listener",
         "path": "/ws/robot",
         "wholemsg": "false"
+    },
+    {
+        "id": "a5415e4f36e84d3f",
+        "type": "inject",
+        "z": "a149896d4fafa3ab",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 200,
+        "wires": [
+            [
+                "8e781cbc8fe61216"
+            ]
+        ]
+    },
+    {
+        "id": "8e781cbc8fe61216",
+        "type": "debug",
+        "z": "a149896d4fafa3ab",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 200,
+        "wires": []
     },
     {
         "id": "3cc11d24.ff01a2",
