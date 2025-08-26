@@ -453,7 +453,7 @@
         "name": "TestDB",
         "host": "host.docker.internal",
         "port": "3306",
-        "db": "default",
+        "db": "ryudai",
         "tz": "",
         "charset": "UTF8MB4"
     },
@@ -1679,7 +1679,7 @@
         "type": "function",
         "z": "e2e1ba42884743b6",
         "name": "select文を準備",
-        "func": "msg.topic = \"select * from era_names;\";\nreturn msg;",
+        "func": "msg.topic = \"\";\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
